@@ -1,0 +1,10 @@
+services:
+  lunara1:
+    build: .
+    command: sh -c "javac src/*.java -d . && java Main"
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./data:/data
+      - ./src:/app/src
+    container_name: lunara1
