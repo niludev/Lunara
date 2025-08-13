@@ -3,7 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
-public class FileCsvRepository {
+public class RecordRepository {
     public static void writeLine(String path, String line) {
         try {
             Files.write(Paths.get(path), line.getBytes(), StandardOpenOption.APPEND);
