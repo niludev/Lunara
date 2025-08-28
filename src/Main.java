@@ -5,9 +5,9 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Scanner;
 import java.nio.file.Paths;
-import java.nio.file.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -15,6 +15,7 @@ public class Main {
 
     private static final Path CSV_PATH = Paths.get("/data/period.csv");
     private static final String[] CSV_HEADER = new String[]{
+            "id",
             "username",
             "startDate",
             "endDate",
@@ -28,6 +29,10 @@ public class Main {
         Main.ensureCsvHeader(CSV_PATH, String.join(",", CSV_HEADER));
 
         Scanner scanner = new Scanner(System.in);
+
+        System.out.print("---------------------------------\n");
+        Main.printRecords(CSV_PATH);
+        System.out.print("---------------------------------\n");
 
         System.out.printf("Please enter the following information:\n");
 
@@ -97,6 +102,10 @@ public class Main {
                 userName, startDate, endDate, painIntensity, mood
         );
         Main.appendRecord(CSV_PATH, record);
+
+        System.out.print("---------------------------------\n");
+        Main.printRecords(CSV_PATH);
+        System.out.print("---------------------------------\n");
     }
 
     public static void ensureCsvHeader(Path path, String headers) {
@@ -121,6 +130,22 @@ public class Main {
         }
 
     };
+
+    public static void printRecords(Path path) {
+        if (Files.exists(path)) {
+            try {
+                List<String> lines = Files.readAllLines(path);
+
+                for (String line : lines) {
+                    System.out.println(line);
+                }
+            }  catch (IOException e) {
+                System.err.println("Error while trying to read file: " + e.getMessage());
+            }
+        } else  {
+            System.err.println("No such file or directory: " + path);
+        }
+    }
 
     public static void appendRecord (Path path, String lineWithNewLine) {
         try {

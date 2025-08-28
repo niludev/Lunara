@@ -1,18 +1,37 @@
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Record {
-    private Integer id = null;
+
+    private String id = "";
     private String username;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private Integer painIntensity;
     private Integer mood;
 
-    public Integer getId() {
+    public Record(String username, LocalDate startDate, LocalDate endDate, Integer painIntensity, Integer mood) {
+        this.username = username;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.painIntensity = painIntensity;
+        this.mood = mood;
+    }
+
+    public Record(String id, String username, LocalDate startDate, LocalDate endDate, Integer painIntensity, Integer mood) {
+        this.id = id;
+        this.username = username;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.painIntensity = painIntensity;
+        this.mood = mood;
+    }
+
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -24,19 +43,19 @@ public class Record {
         this.username = username;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -56,15 +75,19 @@ public class Record {
         this.mood = mood;
     }
 
+//    public Record fromCsvLine(String line) {};
+
     @Override
     public String toString() {
-        return String.join(",", new String[]{
-                this.id.toString(),
+        String newLine = String.join(",",
+//                this.id == null ? "" : this.id.toString(),
+                this.id,
                 this.username,
                 this.startDate.toString(),
                 this.endDate.toString(),
                 this.painIntensity.toString(),
                 this.mood.toString()
-        });
+        );
+        return newLine;
     }
 }
