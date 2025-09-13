@@ -17,20 +17,20 @@ public class RecordRepository {
         this.path = path;
     }
 
-    public void ensureCsvHeader(String headers) {
+    public void ensureCsvHeader(String[] headers) {
         Path parentPath = this.path.getParent();
-
+        String HeadersString = String.join(",", headers);
         try {
             if (parentPath != null) {
                 Files.createDirectories(parentPath);
             }
 
             if (Files.notExists(this.path)) {
-                Files.write(this.path, headers.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE);
+                Files.write(this.path, HeadersString.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE);
             } else {
                 Long size = Files.size(this.path);
                 if (size == 0) {
-                    Files.write(this.path, headers.getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
+                    Files.write(this.path, HeadersString.getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
                 }
             }
 
@@ -90,6 +90,21 @@ public class RecordRepository {
         }
 
         return records;
+    }
+
+    public void printAllRecords() {
+        try {
+            List<String> lines = Files.readAllLines(this.path);
+            List<String> dataLines = lines.subList(1, lines.size());
+
+            for (String dataLine : dataLines) {
+                System.out.println(dataLine);
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error while trying to read file: " + e.getMessage());
+        }
+
     }
 
     public void writeLine(String path, String line) {
