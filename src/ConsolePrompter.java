@@ -6,48 +6,19 @@ public class ConsolePrompter {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public String promptUsername() {
-        String username = "";
-        System.out.print("---------------------------------\n");
-//        Main.printRecords(Main.CSV_PATH);
-        System.out.print("---------------------------------\n");
-
-        System.out.printf("Please enter the following information:\n");
-
-        while (username == null || username.trim().isEmpty()) {
-            System.out.println("Username cannot be empty. Your username:");
-            username = scanner.nextLine();
-        }
-        return username;
-    };
-
     public LocalDate promptStartDate() {
-        LocalDate startDate = null;
+        LocalDate date = null;
 
-        while (startDate == null) {
-            System.out.println("Period start date (Format: YYYY-MM-DD, e.g. 2025-08-01):");
-            String startDateInput = scanner.nextLine();
+        while (date == null) {
+            System.out.println("Period date (Format: YYYY-MM-DD, e.g. 2025-08-01):");
+            String dateInput = scanner.nextLine();
             try {
-                startDate = LocalDate.parse(startDateInput);
+                date = LocalDate.parse(dateInput);
             } catch (DateTimeParseException e) {
                 System.out.println("Invalid date format. Please try again.");
             }
         }
-        return startDate;
-    };
-
-    public LocalDate promptEndDate() {
-        LocalDate endDate = null;
-        while (endDate == null) {
-            System.out.println("Period end date (Format: YYYY-MM-DD, e.g. 2025-08-01):");
-            String endDateInput = scanner.nextLine();
-            try {
-                endDate = LocalDate.parse(endDateInput);
-            } catch (DateTimeParseException e) {
-                System.out.println("Invalid date format. Please try again.");
-            }
-        }
-        return endDate;
+        return date;
     };
 
     public int promptPainIntensity() {

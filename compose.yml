@@ -1,10 +1,55 @@
+#services:
+#  lunara1:
+#    build: .
+#    command: sh -c "javac src/*.java -d . && java Main"
+#    stdin_open: true
+#    tty: true
+#    volumes:
+#      - ./data:/data
+#      - ./src:/app/src
+#    container_name: lunara1
+
+
+version: "3.9"
+
 services:
+  db:
+    image: postgres:16
+    container_name: lunara-db
+    environment:
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: apppass
+      POSTGRES_DB: lunara
+      TZ: Europe/Berlin
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"   # برای اتصال از بیرون (اختیاری ولی مفید در توسعه)
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U appuser -d lunara"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped
+
   lunara1:
     build: .
-    command: sh -c "javac src/*.java -d . && java Main"
-    stdin_open: true
-    tty: true
+    container_name: lunara1
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: lunara
+      DB_USER: appuser
+      DB_PASSWORD: apppass
+      TZ: Europe/Berlin
     volumes:
       - ./data:/data
       - ./src:/app/src
-    container_name: lunara1
+    depends_on:
+      db:
+        condition: service_healthy
+    # نیازی به command جدا نیست چون در CMD داخل Dockerfile تنظیمش می‌کنیم
+    restart: unless-stopped
+
+volumes:
+  pgdata:

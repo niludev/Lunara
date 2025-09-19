@@ -2,61 +2,39 @@ import java.time.LocalDate;
 
 public class Record {
 
-    private String id = "";
-    private String username;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private Integer id;
+    private LocalDate date;
     private Integer painIntensity;
     private Integer mood;
 
-    public Record(String username, LocalDate startDate, LocalDate endDate, Integer painIntensity, Integer mood) {
-        this.username = username;
-        this.startDate = startDate;
-        this.endDate = endDate;
+    public Record(LocalDate date, Integer painIntensity, Integer mood) {
+        this.date = date;
         this.painIntensity = painIntensity;
         this.mood = mood;
     }
 
-    public Record(String id, String username, LocalDate startDate, LocalDate endDate, Integer painIntensity, Integer mood) {
+    public Record(Integer id, LocalDate date, Integer painIntensity, Integer mood) {
         this.id = id;
-        this.username = username;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.date = date;
         this.painIntensity = painIntensity;
         this.mood = mood;
     }
 
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Integer getPainIntensity() {
@@ -80,11 +58,8 @@ public class Record {
     @Override
     public String toString() {
         String newLine = String.join(",",
-//                this.id == null ? "" : this.id.toString(),
-                this.id,
-                this.username,
-                this.startDate.toString(),
-                this.endDate.toString(),
+                this.id == null ? "" : this.id.toString(),
+                this.date.toString(),
                 this.painIntensity.toString(),
                 this.mood.toString()
         );
